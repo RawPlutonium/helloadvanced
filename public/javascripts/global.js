@@ -29,13 +29,14 @@ function populateTable(){
             tableContent += '<td><a href = "#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
-
         //Inject the whole content string into our existing HTML table
         $('#userList table tbody').html(tableContent);
         //Add the clicker for the table
         $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
         //Add User button click
         $('#btnAddUser').on('click', addUser);
+        //Delete User Link
+        $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
     });
 };
 
@@ -115,3 +116,32 @@ function addUser(event) {
         return false;
     }
 };
+
+//Delete User
+ function deleteUser(event) {
+     event.preventDefault();
+     //Pop up a confirmation dialog
+     var confirmation = confirm('Are you sure you want to delete this user?');
+     //Make sure the user confirmed
+     if (confirmation === true){
+         //if they did , delete the user
+         $.ajax({
+             type: 'DELETE',
+             url: '/users/deleteuser/' + $(this).attr('rel')}).done(function( response ) {
+                //Check for a successful (blank) response
+                if (response.msg === ''){
+                    //Do nothing?
+                }
+                else{
+                    alert('Error: '+response.msg);
+                }
+                //Update the table
+                populateTable();
+         });
+     }
+     else{
+         //If they said no to the confirm also do nothing
+         alert("nothing happened!");
+         return false;
+     }
+ };
