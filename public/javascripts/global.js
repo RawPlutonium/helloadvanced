@@ -121,9 +121,8 @@ function addUser(event) {
  function deleteUser(event) {
      event.preventDefault();
      //Pop up a confirmation dialog
-     var confirmation = confirm('Are you sure you want to delete this user?');
      //Make sure the user confirmed
-     if (confirmation === true){
+     if (confirm('Are you sure you want to delete this user?')){
          //if they did , delete the user
          $.ajax({
              type: 'DELETE',
@@ -141,7 +140,24 @@ function addUser(event) {
      }
      else{
          //If they said no to the confirm also do nothing
-         alert("nothing happened!");
          return false;
      }
  };
+
+ //Update User
+//  function updateUser(event){
+//     event.preventDefault();
+//     $.ajax({
+//         type : 'PUT',
+//         url : '/users/updateuser/' + $(this).attr('rel')}).done(function( response ){
+//             //Check for a successful(blank) response 
+//             if( response.msg == ''){
+//                 //It worked take no action
+//             }
+//             else{
+//                 alert("Error: " + response.msg );
+//             }
+//             //update the table
+//             populateTable();
+//         });
+//  }
